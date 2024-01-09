@@ -1,8 +1,7 @@
-type NewAccountModel = {
+export interface NewAccountModel {
   nama: string;
   username: string;
   password: string;
   email: string;
-};
-
-export default NewAccountModel;
+  phone: string;
+}

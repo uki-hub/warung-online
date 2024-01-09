@@ -1,4 +1,5 @@
 const STORAGE = {
+  loginPage: 'loginPage-storage',
   auth: "auth-storage",
   cart: "cart-storage",
 };

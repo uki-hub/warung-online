@@ -2,12 +2,20 @@ import { create } from "zustand";
 import authApi from "../../services/api/authApi";
 import BasePageState from "../../models/bases/basePageState";
 import useAuthStore from "../app/useAuthStore";
-import NewAccountModel from "../../models/new_account_model";
+import { persist, createJSONStorage } from "zustand/middleware";
+import { immer } from "zustand/middleware/immer";
+import CONSTS from "../../consts/const";
+import createCustomStore from "../customeStore";
+import { NewAccountModel } from "../../models/NewAccountModel";
 
 type formToggles = "login" | "forgot" | "new";
 
-interface LoginStoreType extends BasePageState {
+interface LoginPageState extends BasePageState {
   currentForm: formToggles;
+  remembered?: {
+    username: string;
+    password: string;
+  };
   actions: {
     formToggle: (toggle: formToggles) => void;
     login: (username: string, password: string, rememberMe: boolean) => Promise<boolean>;
@@ -16,32 +24,57 @@ interface LoginStoreType extends BasePageState {
   };
 }
 
-const useLoginPageStore = create<LoginStoreType>((set) => ({
-  loading: false,
-  errors: [],
-  currentForm: "login",
-  actions: {
-    formToggle: (toggle) => set(() => ({ currentForm: toggle })),
-    login: async (username: string, password: string, rememberMe: boolean) => {
-      set(() => ({ loading: true }));
+const useLoginPageStore = create(
+  persist(
+    immer<LoginPageState>((set) => ({
+      loading: false,
+      loaded: false,
+      error: false,
+      errors: [],
+      currentForm: "login",
+      actions: {
+        formToggle: (toggle) =>
+          set((state) => {
+            state.currentForm = toggle;
+          }),
+        login: async (username: string, password: string, rememberMe: boolean) => {
+          set((state) => {
+            state.loading = true;
+          });
 
-      const response = await authApi.login(username, password);
+          const response = await authApi.login(username, password);
 
-      if (!response.success) {
-        set(() => ({ errors: response!.errors.client }));
+          if (!response.success) {
+            set((state) => (state.errors = response!.errors.client));
 
-        return false;
-      }
+            return false;
+          }
 
-      useAuthStore.getState().actions.setToken(response.data!.token);
+          useAuthStore.getState().actions.setToken(response.data!.token);
 
-      set(() => ({ loading: false }));
+          set((state) => {
+            if (rememberMe) {
+              state.remembered = {
+                username,
+                password,
+              };
+            }
 
-      return true;
-    },
-    forgotPassword: async (email) => {},
-    createAccount: async (form) => {},
-  },
-}));
+            state.loading = false;
+          });
+
+          return true;
+        },
+        forgotPassword: async (email) => {},
+        createAccount: async (form) => {},
+      },
+    })),
+    createCustomStore({
+      name: CONSTS.STORAGE.loginPage,
+      storage: createJSONStorage(() => sessionStorage),
+      partialize: (state) => state.remembered,
+    })
+  )
+);
 
 export default useLoginPageStore;

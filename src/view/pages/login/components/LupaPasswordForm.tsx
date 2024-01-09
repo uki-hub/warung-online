@@ -1,8 +1,10 @@
-import { TextInput, Title, Space, Anchor, Button } from "@mantine/core";
+import { TextInput, Title, Space, Anchor, Button, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import useLoginPageStore from "../../../../stores/pages/useLoginPageStore";
 
 const LupaPasswordForm = () => {
+  const state = useLoginPageStore();
+
   const form = useForm({
     initialValues: {
       email: "",
@@ -14,12 +16,12 @@ const LupaPasswordForm = () => {
 
   return (
     <>
-      <Title c="pink">Lupa Password</Title>
+      <Title c="cpink">Lupa Password</Title>
       <Space h="md" />
       <TextInput label="Email" placeholder="emailaku@domain.com"></TextInput>
       <Space h="lg" />
-      <Button variant="filled" fullWidth color="pink">
-        KIRIM EMAIL
+      <Button type="submit" variant="filled" color="cpink" size="md" fullWidth>
+        {state.loading ? <Loader size="sm" color="white" /> : "KIRIM EMAIL"}
       </Button>
       <Space h="md" />
 

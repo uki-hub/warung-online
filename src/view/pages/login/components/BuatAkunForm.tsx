@@ -1,8 +1,10 @@
-import { Checkbox, TextInput, Title, Button, PasswordInput, Space, Divider, Group, Anchor, Center } from "@mantine/core";
+import { TextInput, Title, Button, PasswordInput, Space, Divider, Group, Anchor, Center, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import useLoginPageStore from "../../../../stores/pages/useLoginPageStore";
 
 const BuatAkunForm = () => {
+  const state = useLoginPageStore();
+
   const form = useForm({
     initialValues: {
       nama: "",
@@ -18,7 +20,7 @@ const BuatAkunForm = () => {
 
   return (
     <>
-      <Title c="pink">Buat Akun Baru</Title>
+      <Title c="cpink">Buat Akun Baru</Title>
       <Space h="md" />
       <TextInput label="Nama"></TextInput>
       <Space h="md" />
@@ -29,9 +31,11 @@ const BuatAkunForm = () => {
       <PasswordInput label="Masukan ulang Password"></PasswordInput>
       <Space h="md" />
       <TextInput label="Email" placeholder="emailaku@domain.com"></TextInput>
+      <Space h="md" />
+      <TextInput label="No HP" type="number" placeholder="081234567"></TextInput>
       <Space h="lg" />
-      <Button variant="filled" fullWidth color="pink">
-        DAFTAR
+      <Button type="submit" variant="filled" color="cpink" size="md" fullWidth>
+        {state.loading ? <Loader size="sm" color="white" /> : "BUAT AKUN"}
       </Button>
       <Space h="md" />
       <Center>
