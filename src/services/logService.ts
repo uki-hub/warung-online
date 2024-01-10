@@ -1,10 +1,10 @@
 const logService = (function () {
-  const logs: Array<string> = [];
+  const logs: string[] = [];
 
   return {
     log: (message: string) => logs.push(message),
-    logAll: (messages: Array<string>) => logs.push(...messages),
-    get: (): Array<string> => logs,
+    logAll: (messages: string[]) => logs.push(...messages),
+    get: (): string[] => logs,
   };
 })();
 

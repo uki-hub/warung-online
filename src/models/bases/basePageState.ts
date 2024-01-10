@@ -1,11 +1,13 @@
-export default interface BasePageState {
+export default interface BasePageState extends BaseState {
   loaded: boolean;
   loading: boolean;
   error: boolean;
-  errors: Array<string>;
-  actions: Record<string, any>;
-  pageActions?: {
-    load?: () => Promise<void>
-    refresh?: () => Promise<void>;
-  } | undefined;
+  errors: string[];
+  pageActions?:
+    | {
+        load?: (arg?: any) => Promise<void>;
+        refresh?: () => Promise<void>;
+        clear?: () => void;
+      }
+    | undefined;
 }

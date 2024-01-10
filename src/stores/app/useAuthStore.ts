@@ -5,17 +5,17 @@ import { immer } from "zustand/middleware/immer";
 import CONSTS from "../../consts/const";
 import createCustomStore from "../customeStore";
 
-type AuthStoreType = {
+interface AuthState extends BaseState {
   token?: string | undefined;
   actions: {
     isAuthenticated: () => boolean;
     setToken: (token: string) => void;
   };
-};
+}
 
 const useAuthStore = create(
   persist(
-    immer<AuthStoreType>((set, get) => ({
+    immer<AuthState>((set, get) => ({
       actions: {
         isAuthenticated: () => get().token != undefined,
         setToken: (token) => {

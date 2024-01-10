@@ -1,26 +1,22 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-import BasePageState from "../../models/bases/basePageState";
+import BasePageState from "../../models/bases/BasePageState";
 import { ProductModel } from "../../models/ProductModel";
 import productApi from "../../services/api/productApi";
 
-interface berandaPageState extends BasePageState {
+interface BerandaPageState extends BasePageState {
   products: ProductModel[];
 }
 
 const useBerandaPageStore = create(
-  immer<berandaPageState>((set, get) => ({
+  immer<BerandaPageState>((set, get) => ({
     products: [],
-    loading: false,
+    loading: true,
     loaded: false,
     error: false,
     errors: [],
     pageActions: {
-      load: async () => {
-        set((state) => {
-          state.loading = true;
-        });
-
+      load: async () => {      
         const response = await productApi.getProducts();
 
         if (!response.success) {

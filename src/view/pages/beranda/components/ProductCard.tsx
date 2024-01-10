@@ -1,10 +1,10 @@
-import { Badge, Card, Divider, Image, Text, Title } from "@mantine/core";
+import { Badge, Card, Image, Text, Title } from "@mantine/core";
 import { ProductModel } from "../../../../models/ProductModel";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ product }: { product: ProductModel }) => {
   return (
-    <div className="px-2 py-4 max-h-[64rem] w-1/5">
+    <div className="px-2 py-4 max-h-[64rem] w-full">
       <Link to={`/barang/${product.id}`}>
         <Card withBorder shadow="sm" padding="xs" radius="md" className="w-full h-[270px]">
           <Card.Section mb={5} className="relative">

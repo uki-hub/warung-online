@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import authApi from "../../services/api/authApi";
-import BasePageState from "../../models/bases/basePageState";
+import BasePageState from "../../models/bases/BasePageState";
 import useAuthStore from "../app/useAuthStore";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -28,7 +28,7 @@ const useLoginPageStore = create(
   persist(
     immer<LoginPageState>((set) => ({
       loading: false,
-      loaded: false,
+      loaded: true,
       error: false,
       errors: [],
       currentForm: "login",

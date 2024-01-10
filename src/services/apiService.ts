@@ -1,4 +1,4 @@
-import BaseResponse from "../models/bases/baseResponseModel";
+import BaseResponse from "../models/bases/BaseResponseModel";
 import useAuthStore from "../stores/app/useAuthStore";
 import logService from "./logService";
 
@@ -22,8 +22,8 @@ const responseWrapper = async <T>(requestFn: () => Promise<Response>): Promise<B
   let success: boolean = false;
   let data: T | undefined;
 
-  const errorClient: Array<string> = [];
-  const errorDev: Array<string> = [];
+  const errorClient: string[] = [];
+  const errorDev: string[] = [];
 
   try {
     response = await requestFn();
