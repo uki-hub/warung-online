@@ -1,6 +1,6 @@
 import { Badge, Divider, Space, Text, Title } from "@mantine/core";
 import { GiRoundStar } from "react-icons/gi";
-import { ProductModel } from "../../../../models/ProductModel";
+import ProductModel from "../../../../models/ProductModel";
 import ProductAction from "./ProductAction";
 import { BsHeart } from "react-icons/bs";
 import { BsHeartFill } from "react-icons/bs";

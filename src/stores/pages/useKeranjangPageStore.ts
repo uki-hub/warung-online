@@ -1,13 +1,12 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import BasePageState from "../../models/bases/BasePageState";
-import { CartProductModel } from "../../models/CartProductModel";
+import CartProductModel from "../../models/CartProductModel";
 import useCartStore from "../app/useCartStore";
 import productApi from "../../services/api/productApi";
 
 interface keranjangPageState extends BasePageState {
   cartProducts: CartProductModel[];
-  actions: {};
 }
 
 const initialState = { loading: true, loaded: false, error: false, errors: [], cartProducts: [] };

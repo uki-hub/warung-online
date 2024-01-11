@@ -1,3 +1,5 @@
+import BaseState from "./BaseState.ts";
+
 export default interface BasePageState extends BaseState {
   loaded: boolean;
   loading: boolean;

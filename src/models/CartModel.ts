@@ -1,4 +1,4 @@
-export interface CartModel {
+export default interface CartModel {
   id: number;
   count: number;
   note: string;

@@ -15,7 +15,7 @@ function LoginPage() {
 
   useEffect(() => {
     if (useAuthStore.getState().actions.isAuthenticated()) navigate("/");
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="relative h-screen flex items-center justify-end">

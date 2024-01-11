@@ -1,6 +1,6 @@
-import { ProductModel } from "../ProductModel";
+import ProductModel from "../ProductModel";
 
-export interface GetProductsResponseModel {
+export default interface GetProductsResponseModel {
   products: ProductModel[];
   total: number;
   skip: number;

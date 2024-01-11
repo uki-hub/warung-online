@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import BasePageState from "../../models/bases/BasePageState";
-import { ProductModel } from "../../models/ProductModel";
+import ProductModel from "../../models/ProductModel";
 import productApi from "../../services/api/productApi";
 
 interface BarangPageState extends BasePageState {

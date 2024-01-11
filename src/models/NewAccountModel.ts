@@ -1,4 +1,4 @@
-export interface NewAccountModel {
+export default interface NewAccountModel {
   nama: string;
   username: string;
   password: string;
