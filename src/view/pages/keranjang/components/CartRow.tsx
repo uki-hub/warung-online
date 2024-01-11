@@ -2,24 +2,27 @@ import { Checkbox, Divider, Image, Space, Title } from "@mantine/core";
 import CartProductModel from "../../../../models/CartProductModel";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { AiOutlineDelete } from "react-icons/ai";
+import { AiFillDelete } from "react-icons/ai";
 import UpdateNote from "./UpdateNote.tsx";
+import useConfirmationModal from "../../../../hooks/useConfirmationModal.ts";
 
 const CartRow = ({ data }: { data: CartProductModel }) => {
+  const confirmationModal = useConfirmationModal();
+
   return (
     <>
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center w-full">
+      <div className="flex flex-col gap-2 w-full">
+        <div className="flex items-center">
           <div className="w-8">
             <Checkbox />
           </div>
-          <div className="flex">
-            <Link to={`/barang/${data.product.id}`}>
-              <div className="border rounded-lg overflow-hidden border-gray-100">
-                <Image w={80} h={70} fit="fill" src={data.product.thumbnail} />
-              </div>
+          <div className="flex w-full">
+            <Link to={`/barang/${data.product.id}`} className="border rounded overflow-hidden border-gray-100 shrink-0">
+              <Image w={80} h={70} fit="contain" src={data.product.thumbnail} />
             </Link>
             <Space w={10} />
-            <div className="h-full">
+            <div className="flex flex-col h-full">
               <Title order={4} className="font-normal">
                 {data.product.title}
               </Title>
@@ -31,12 +34,26 @@ const CartRow = ({ data }: { data: CartProductModel }) => {
                 </span>
               </Title>
             </div>
+            <div
+              onClick={() => {
+                confirmationModal.actions.open({
+                  title: "delete",
+                  message: "are you sure",
+                  callback: (value) => {
+                    value;
+                  },
+                });
+              }}
+              className="relative h-min w-[20px] text-xl ml-auto mt-1 text-gray-400 cursor-pointer hover:text-red-600 "
+            >
+              <AiOutlineDelete className="absolute top-0 " />
+              <AiFillDelete className="absolute top-0 opacity-0 hover:opacity-100" />
+            </div>
           </div>
         </div>
         <UpdateNote product={data.product} />
       </div>
-      <Divider 
-      opacity="0.4" />
+      <Divider opacity="0.4" />
     </>
   );
 };

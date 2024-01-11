@@ -8,7 +8,7 @@ const ProductCard = ({ product }: { product: ProductModel }) => {
       <Link to={`/barang/${product.id}`}>
         <Card withBorder shadow="sm" padding="xs" radius="md" className="w-full h-[270px]">
           <Card.Section mb={5} className="relative">
-            <Image h={150} fit="fill" src={product.thumbnail} />
+            <Image h={150} fit="cover" src={product.thumbnail} />
             <Badge radius="xl" px="3" color="yellow" className="absolute right-2 top-2">
               {product.discountPercentage}%
             </Badge>
