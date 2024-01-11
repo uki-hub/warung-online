@@ -8,7 +8,9 @@ const BerandaPage = () => {
   const state = useBerandaPageStore();
 
   useEffect(() => {
-    state.pageActions!.load!();
+    const { load } = useBerandaPageStore.getState().pageActions!;
+
+    load!();
   }, []);
 
   if (state.loading) return <Loader />;

@@ -6,7 +6,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import CONSTS from "../../consts/const";
 import createCustomStore from "../customeStore";
-import { NewAccountModel } from "../../models/NewAccountModel";
+import NewAccountModel from "../../models/NewAccountModel";
 
 type formToggles = "login" | "forgot" | "new";
 

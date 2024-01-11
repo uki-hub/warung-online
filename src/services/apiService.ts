@@ -1,4 +1,4 @@
-import BaseResponse from "../models/bases/BaseResponseModel";
+import BaseResponseModel from "../models/bases/BaseResponseModel";
 import useAuthStore from "../stores/app/useAuthStore";
 import logService from "./logService";
 
@@ -17,7 +17,7 @@ const headerBuilder = (): HeadersInit => {
   return header;
 };
 
-const responseWrapper = async <T>(requestFn: () => Promise<Response>): Promise<BaseResponse<T>> => {
+const responseWrapper = async <T>(requestFn: () => Promise<Response>): Promise<BaseResponseModel<T>> => {
   let response: Response | undefined;
   let success: boolean = false;
   let data: T | undefined;
@@ -43,7 +43,7 @@ const responseWrapper = async <T>(requestFn: () => Promise<Response>): Promise<B
     logService.logAll(errorDev);
   }
 
-  return <BaseResponse<T>>{
+  return <BaseResponseModel<T>>{
     success: success,
     data: data,
     errors: {
@@ -53,7 +53,7 @@ const responseWrapper = async <T>(requestFn: () => Promise<Response>): Promise<B
   };
 };
 
-const POST = async <T>(url: string, body: Record<string, any>): Promise<BaseResponse<T>> =>
+const POST = async <T>(url: string, body: Record<string, any>): Promise<BaseResponseModel<T>> =>
   responseWrapper(() =>
     fetch(url, {
       method: "POST",
@@ -62,7 +62,7 @@ const POST = async <T>(url: string, body: Record<string, any>): Promise<BaseResp
     })
   );
 
-const GET = async <T>(url: string): Promise<BaseResponse<T>> =>
+const GET = async <T>(url: string): Promise<BaseResponseModel<T>> =>
   responseWrapper(() =>
     fetch(url, {
       method: "GET",

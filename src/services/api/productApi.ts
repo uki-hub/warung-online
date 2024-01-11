@@ -1,6 +1,7 @@
-import BaseResponseModel from "../../models/bases/BaseResponseModel";
-import { GetProductResponseModel } from "../../models/responses/getProductResponseModel";
-import { GetProductsResponseModel } from "../../models/responses/getProductsResponseModel";
+import BaseResponseModel from "../../models/bases/BaseResponseModel.ts";
+import GetProductResponseModel from "../../models/responses/GetProductResponseModel.ts";
+import GetProductsResponseModel from "../../models/responses/GetProductsResponseModel.ts";
+
 import ApiService from "../apiService";
 
 const getProducts = async (): Promise<BaseResponseModel<GetProductsResponseModel>> => {

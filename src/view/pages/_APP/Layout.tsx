@@ -1,17 +1,24 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import AppBar from "../../components/AppBar/AppBar";
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 import useAuthStore from "../../../stores/app/useAuthStore";
 
 const Layout = () => {
   const navigate = useNavigate();
 
-  useLayoutEffect(() => {
+  // useLayoutEffect(() => {
+  //   if (!useAuthStore.getState().actions.isAuthenticated()) {
+  //     navigate("/masuk");
+  //     return;
+  //   }
+  // }, []);
+
+  useEffect(() => {
     if (!useAuthStore.getState().actions.isAuthenticated()) {
       navigate("/masuk");
       return;
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="flex flex-col items-center">

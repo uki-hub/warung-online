@@ -1,4 +1,4 @@
-export interface AuthResponseModel {
+export default interface AuthResponseModel {
   id: number;
   username: string;
   email: string;

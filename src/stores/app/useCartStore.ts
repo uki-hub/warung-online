@@ -3,11 +3,13 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import createCustomStore from "../customeStore";
 import CONSTS from "../../consts/const";
-import { CartModel } from "../../models/CartModel";
+import CartModel from "../../models/CartModel";
+import BaseState from "../../models/bases/BaseState.ts";
 
 interface CartState extends BaseState {
   carts: CartModel[];
   actions: {
+    getCartById: (id: number) => CartModel;
     getCartIndexById: (id: number) => number;
 
     add: (cart: CartModel) => void;
@@ -23,6 +25,11 @@ const useCartStore = create(
     immer<CartState>((set, get) => ({
       carts: [],
       actions: {
+        getCartById: (id) => {
+          const { carts } = get();
+
+          return carts.find((c) => c.id == id)!;
+        },
         getCartIndexById: (id) => {
           const { carts } = get();
 

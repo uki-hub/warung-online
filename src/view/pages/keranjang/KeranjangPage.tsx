@@ -1,4 +1,4 @@
-import { Checkbox, Divider, Loader, Space, TextInput, Title } from "@mantine/core";
+import { Checkbox, Divider, Loader, Space, Title } from "@mantine/core";
 import CartRow from "./components/CartRow";
 import useKeranjangPageStore from "../../../stores/pages/useKeranjangPageStore";
 import { useEffect } from "react";
@@ -7,9 +7,11 @@ const KeranjangPage = () => {
   const state = useKeranjangPageStore();
 
   useEffect(() => {
-    state.pageActions!.load!();
-    
-    return state.pageActions!.clear!();
+    const { load, clear } = useKeranjangPageStore.getState().pageActions!;
+
+    load!();
+
+    return clear!;
   }, []);
 
   if (!state.loaded && state.loading) return <Loader />;
@@ -23,11 +25,13 @@ const KeranjangPage = () => {
           <Checkbox fw="bold" label="Pilih Semua" />
         </div>
         <Space h={15} />
-        <Divider />
+        <Divider size="md" />
         <Space h={20} />
-        {state.cartProducts.map((c) => (
-          <CartRow data={c} />
-        ))}
+        <div className="flex flex-col gap-5">
+          {state.cartProducts.map((c, i) => (
+            <CartRow key={i} data={c} />
+          ))}
+        </div>
       </div>
       <div className="sticky top-28 flex flex-col w-[40%] h-min border rounded-lg p-4">
         <Title order={5} className="text-gray-700">

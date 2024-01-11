@@ -4,6 +4,7 @@ import { immer } from "zustand/middleware/immer";
 
 import CONSTS from "../../consts/const";
 import createCustomStore from "../customeStore";
+import BaseState from "../../models/bases/BaseState.ts";
 
 interface AuthState extends BaseState {
   token?: string | undefined;

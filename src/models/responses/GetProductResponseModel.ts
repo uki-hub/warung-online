@@ -1,3 +1,3 @@
-import { ProductModel } from "../ProductModel";
+import ProductModel from "../ProductModel";
 
-export interface GetProductResponseModel extends ProductModel {}
+export default interface GetProductResponseModel extends ProductModel {}

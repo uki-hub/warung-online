@@ -1,7 +1,7 @@
-import { CartModel } from "./CartModel";
-import { ProductModel } from "./ProductModel";
+import CartModel from "./CartModel";
+import ProductModel from "./ProductModel";
 
-export interface CartProductModel {
+export default interface CartProductModel {
   product: ProductModel;
   cart: CartModel;
 }

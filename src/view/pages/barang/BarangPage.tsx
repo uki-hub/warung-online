@@ -10,10 +10,12 @@ const BarangPage = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    state.pageActions!.load!(id);
+    const { load, clear } = useBarangPageStore.getState().pageActions!;
 
-    return state.pageActions?.clear;
-  }, []);
+    load!(id);
+
+    return clear!;
+  }, [id]);
 
   if (!state.loaded) return <Loader />;
 

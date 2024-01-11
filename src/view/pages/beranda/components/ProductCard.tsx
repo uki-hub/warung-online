@@ -1,5 +1,5 @@
 import { Badge, Card, Image, Text, Title } from "@mantine/core";
-import { ProductModel } from "../../../../models/ProductModel";
+import ProductModel from "../../../../models/ProductModel";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ product }: { product: ProductModel }) => {
