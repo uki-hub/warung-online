@@ -1,37 +1,51 @@
-import { useDisclosure } from "@mantine/hooks";
-import {  useState } from "react";
+import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
+import BaseState from "../models/bases/BaseState";
 
-type ConfirmationModalType = {
-  title: string;
-  message: string;
-  callback: (answer: boolean) => void;
+interface ConfirmationModalState extends BaseState {
+  opened: boolean;
+  answer: boolean;
+  title?: string;
+  body?: JSX.Element;
+  onAnswer: (answer: boolean) => Promise<void>;
+
+  actions: {
+    open: (props: ConfirmationModalProps) => void;
+    close: (answer: boolean) => Promise<void>;
+  };
+}
+
+type ConfirmationModalProps = {
+  title?: string;
+  body?: JSX.Element;
+  onAnswer: (answer: boolean) => Promise<void>;
 };
 
-const useConfirmationModal = () => {
-  const initialState: ConfirmationModalType = {
+const useConfirmationModal = create(
+  immer<ConfirmationModalState>((set, get) => ({
+    opened: false,
+    answer: false,
     title: "",
-    message: "",
-    callback: () => {},
-  };
+    onAnswer: async () => {},
+    actions: {
+      open: (props: ConfirmationModalProps) => {
+        set((state) => {
+          state.title = props.title;
+          state.body = props.body;
+          state.onAnswer = props.onAnswer;
+          state.opened = true;
+        });
+      },
+      close: async (answer: boolean) => {
+        await get().onAnswer(answer);
 
-  const [opened, modalActions] = useDisclosure(false);
-
-  const [state, setState] = useState<ConfirmationModalType>(initialState);
-
-  const open = (props: ConfirmationModalType) => {
-    setState(props);
-    modalActions.open();
-  };
-
-  const close = () => {
-    modalActions.close();
-  };
-
-  return {
-    opened,
-    state,
-    actions: { open, close },
-  };
-};
+        set((state) => {
+          state.answer = answer;
+          state.opened = false;
+        });
+      },
+    },
+  }))
+);
 
 export default useConfirmationModal;

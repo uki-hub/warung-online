@@ -6,8 +6,12 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { AiFillDelete } from "react-icons/ai";
 import UpdateNote from "./UpdateNote.tsx";
 import useConfirmationModal from "../../../../hooks/useConfirmationModal.ts";
+import useCartStore from "../../../../stores/app/useCartStore.ts";
+import useKeranjangPageStore from "../../../../stores/pages/useKeranjangPageStore.ts";
 
 const CartRow = ({ data }: { data: CartProductModel }) => {
+  const { clear } = useCartStore.getState().actions!;
+  const { refresh } = useKeranjangPageStore.getState().pageActions!;
   const confirmationModal = useConfirmationModal();
 
   return (
@@ -37,10 +41,16 @@ const CartRow = ({ data }: { data: CartProductModel }) => {
             <div
               onClick={() => {
                 confirmationModal.actions.open({
-                  title: "delete",
-                  message: "are you sure",
-                  callback: (value) => {
-                    value;
+                  body: (
+                    <span>
+                      Hapus <span className="font-semibold">{data.product.title}</span> dari keranjang?
+                    </span>
+                  ),
+                  onAnswer: async (value) => {
+                    if (value) {
+                      clear!([data.cart.id]);
+                      await refresh!();
+                    }
                   },
                 });
               }}

@@ -12,7 +12,7 @@ interface keranjangPageState extends BasePageState {
 const initialState = { loading: true, loaded: false, error: false, errors: [], cartProducts: [] };
 
 const useKeranjangPageStore = create(
-  immer<keranjangPageState>((set) => ({
+  immer<keranjangPageState>((set, get) => ({
     ...initialState,
     actions: {},
     pageActions: {
@@ -37,6 +37,9 @@ const useKeranjangPageStore = create(
           state.loading = false;
           state.loaded = true;
         });
+      },
+      refresh: async () => {
+        await get().pageActions?.load!();
       },
       clear: () => set(initialState),
     },

@@ -1,4 +1,4 @@
-import { Button, Modal, Space, Text, Textarea } from "@mantine/core";
+import { Button, Modal, Space, Textarea } from "@mantine/core";
 import useCartStore from "../../../../stores/app/useCartStore.ts";
 import { SlNote } from "react-icons/sl";
 import ProductModel from "../../../../models/ProductModel.ts";
@@ -10,7 +10,7 @@ const UpdateNote = ({ product }: { product: ProductModel }) => {
 
   const [opened, { open, close }] = useDisclosure(false);
 
-  const productNote = state.actions.getCartById(product.id).note;
+  const productNote = state.actions.getCartById(product.id)?.note;
 
   const form = useForm({
     initialValues: {

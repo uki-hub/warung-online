@@ -1,8 +1,9 @@
-import { Divider, Loader, Space, Title } from "@mantine/core";
+import { Divider, Loader, Space } from "@mantine/core";
 import CartRow from "./components/CartRow";
 import useKeranjangPageStore from "../../../stores/pages/useKeranjangPageStore";
 import { useEffect } from "react";
 import CartHeader from "./components/CartHeader";
+import CartAction from "./components/CartAction";
 
 const KeranjangPage = () => {
   const state = useKeranjangPageStore();
@@ -18,7 +19,7 @@ const KeranjangPage = () => {
   if (!state.loaded && state.loading) return <Loader />;
 
   return (
-    <div className="flex gap-12">
+    <div className="flex gap-12 h-full">
       <div className="flex flex-col w-[60%]">
         <CartHeader />
         <Space h={5} />
@@ -30,11 +31,7 @@ const KeranjangPage = () => {
           ))}
         </div>
       </div>
-      <div className="sticky top-28 flex flex-col w-[40%] h-min border rounded-lg p-4">
-        <Title order={5} className="text-gray-700">
-          Checkout
-        </Title>
-      </div>
+      <CartAction />
     </div>
   );
 };

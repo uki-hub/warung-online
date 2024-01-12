@@ -1,36 +1,32 @@
-import { Button, Modal, Text } from "@mantine/core";
+import { Button, Loader, Modal } from "@mantine/core";
 import useConfirmationModal from "../../../hooks/useConfirmationModal";
-import { useEffect } from "react";
+import { useState } from "react";
 
 const ConfirmationModal = () => {
-  const s = useConfirmationModal();
+  const state = useConfirmationModal();
+
+  const [loading, setLoading] = useState(false);
   //this not working becayse custom hooks scope only its in component use zustand global state mf
 
-  let answerValue: boolean = false;
+  const answerYes = async () => {
+    if (loading) return;
 
-  const answer = (value: boolean) => {
-    answerValue = value;
-    s.actions.close();
-    s.state.callback(answerValue);
+    setLoading(true);
+    await state.actions.close(true);
+    setLoading(false);
   };
 
-  useEffect(() => {
-    s.actions.open({
-      title: "",
-      message: "",
-      callback: () => {},
-    });
-  }, []);
-
   return (
-    <Modal id="uki" title={s.state.title} opened={s.opened} onClose={() => answer(false)} withCloseButton centered zIndex={302}>
-      <div className="flex flex-col gap-2">
-        <Text size="md" className="text-gray-700">
-          {s.state.message}
-        </Text>
-        <div className="flex gap-4">
-          <Button onClick={() => answer(true)}>Ya</Button>
-          <Button onClick={() => answer(false)}>Tidak</Button>
+    <Modal id="uki" title={state.title} opened={state.opened} onClose={() => {}} withCloseButton={false} centered zIndex={302}>
+      <div className="flex flex-col gap-4">
+        {state.body && state.body}
+        <div className="flex gap-2">
+          <Button color="cpink" onClick={answerYes} className="flex-1">
+            {loading ? <Loader size="sm" color="white" /> : "Ya"}
+          </Button>
+          <Button onClick={() => state.actions.close(false)} className="flex-1 bg-pink-300 hover:bg-pink-400">
+            Tidak
+          </Button>
         </div>
       </div>
     </Modal>
