@@ -5,14 +5,11 @@ import { Link } from "react-router-dom";
 import { AiOutlineDelete } from "react-icons/ai";
 import { AiFillDelete } from "react-icons/ai";
 import UpdateNote from "./UpdateNote.tsx";
-import useConfirmationModal from "../../../../hooks/useConfirmationModal.ts";
-import useCartStore from "../../../../stores/app/useCartStore.ts";
-import useKeranjangPageStore from "../../../../stores/pages/useKeranjangPageStore.ts";
+import useApp from "../../../../stores/useApp.ts";
+import usePersist from "../../../../stores/usePersist.ts";
 
 const CartRow = ({ data }: { data: CartProductModel }) => {
-  const { clear } = useCartStore.getState().actions!;
-  const { refresh } = useKeranjangPageStore.getState().pageActions!;
-  const confirmationModal = useConfirmationModal();
+  const modalStore = useApp((state) => state.ConfirmationModalStore);
 
   return (
     <>
@@ -40,17 +37,14 @@ const CartRow = ({ data }: { data: CartProductModel }) => {
             </div>
             <div
               onClick={() => {
-                confirmationModal.actions.open({
+                modalStore.actions.open({
                   body: (
                     <span>
                       Hapus <span className="font-semibold">{data.product.title}</span> dari keranjang?
                     </span>
                   ),
                   onAnswer: async (value) => {
-                    if (value) {
-                      clear!([data.cart.id]);
-                      await refresh!();
-                    }
+                    if (value) usePersist.getState().cart_clear([data.cart.id]);
                   },
                 });
               }}

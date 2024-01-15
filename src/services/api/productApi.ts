@@ -1,6 +1,6 @@
-import BaseResponseModel from "../../models/bases/BaseResponseModel.ts";
+import BaseResponseModel from "../../abstractions/BaseResponseModel.ts";
 import GetProductResponseModel from "../../models/responses/GetProductResponseModel.ts";
-import GetProductsResponseModel from "../../models/responses/GetProductsResponseModel.ts";
+import GetProductsResponseModel from "../../models/responses/getProductsResponseModel.ts";
 
 import ApiService from "../apiService";
 

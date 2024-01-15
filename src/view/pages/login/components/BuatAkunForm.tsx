@@ -1,10 +1,8 @@
 import { TextInput, Title, Button, PasswordInput, Space, Anchor, Center, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import useLoginPageStore from "../../../../stores/pages/useLoginPageStore";
+import useApp from "../../../../stores/useApp";
 
 const BuatAkunForm = () => {
-  const state = useLoginPageStore();
-
   const form = useForm({
     initialValues: {
       nama: "",
@@ -17,6 +15,8 @@ const BuatAkunForm = () => {
       password: (val) => (val.length <= 8 ? "Password should include at least 8 characters" : null),
     },
   });
+
+  const onMasukAkun = () => useApp.getState().pageLoginStore.actions.formToggle("login");
 
   return (
     <>
@@ -35,11 +35,12 @@ const BuatAkunForm = () => {
       <TextInput label="No HP" type="number" placeholder="081234567"></TextInput>
       <Space h="lg" />
       <Button type="submit" variant="filled" color="cpink" size="md" fullWidth>
-        {state.loading ? <Loader size="sm" color="white" /> : "BUAT AKUN"}
+        {/* {state.loading ? <Loader size="sm" color="white" /> : "BUAT AKUN"} */}
+        BUAT AKUN
       </Button>
       <Space h="md" />
       <Center>
-        <Anchor component="button" type="button" c="dimmed" size="xs" onClick={() => useLoginPageStore.getState().actions.formToggle("login")}>
+        <Anchor component="button" type="button" c="dimmed" size="xs" onClick={onMasukAkun}>
           Sudah punya akun?
         </Anchor>
       </Center>

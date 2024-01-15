@@ -1,10 +1,10 @@
 import { Badge } from "@mantine/core";
 import { BsMinecart } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import useCartStore from "../../../../stores/app/useCartStore";
+import usePersist from "../../../../stores/usePersist";
 
 const CartIcon = () => {
-  const { carts } = useCartStore();
+  const { carts } = usePersist().CartStore;
 
   return (
     <Link to={"/keranjang"} className="relative">

@@ -1,8 +1,8 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import AppBar from "../../components/AppBar/AppBar";
 import { useEffect } from "react";
-import useAuthStore from "../../../stores/app/useAuthStore";
 import ConfirmationModal from "../../components/Modals/ConfirmationModal";
+import usePersist from "../../../stores/usePersist";
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const Layout = () => {
   // }, []);
 
   useEffect(() => {
-    if (!useAuthStore.getState().actions.isAuthenticated()) {
+    if (!usePersist.getState().auth_isAuthenticated()) {
       navigate("/masuk");
       return;
     }

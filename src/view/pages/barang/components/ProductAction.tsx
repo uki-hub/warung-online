@@ -1,11 +1,10 @@
 import { Button, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { MdAdd, MdRemove } from "react-icons/md";
-import useBarangPageStore from "../../../../stores/pages/useBarangPageStore";
-import useCartStore from "../../../../stores/app/useCartStore";
-
+import useApp from "../../../../stores/useApp";
+import usePersist from "../../../../stores/usePersist";
 const ProductAction = () => {
-  const { product } = useBarangPageStore();
+  const { product } = useApp((state) => state.pageBarangStore);
 
   const form = useForm({
     initialValues: {
@@ -16,7 +15,7 @@ const ProductAction = () => {
   const setJumlah = (count: number) => form.setFieldValue("jumlah", form.values.jumlah + count);
 
   const addToCart = () => {
-    useCartStore.getState().actions.add({
+    usePersist.getState().cart_add({
       id: product!.id,
       count: form.values.jumlah,
       note: "",
