@@ -2,19 +2,18 @@ import { Card } from "@mantine/core";
 import image from "./../../../assets/images/login_background.jpg";
 import LupaPasswordForm from "./components/LupaPasswordForm";
 import BuatAkunForm from "./components/BuatAkunForm";
-import useLoginPageStore from "../../../stores/pages/useLoginPageStore";
-import { useShallow } from "zustand/react/shallow";
 import LoginForm from "./components/LoginForm";
 import { useEffect } from "react";
-import useAuthStore from "../../../stores/app/useAuthStore";
 import { useNavigate } from "react-router-dom";
+import useApp from "../../../stores/useApp";
+import usePersist from "../../../stores/usePersist";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const formToggle = useLoginPageStore(useShallow((state) => state.currentForm));
+  const formToggle = useApp((state) => state.pageLoginStore.currentForm);
 
   useEffect(() => {
-    if (useAuthStore.getState().actions.isAuthenticated()) navigate("/");
+    if (usePersist.getState().auth_isAuthenticated()) navigate("/");
   }, [navigate]);
 
   return (

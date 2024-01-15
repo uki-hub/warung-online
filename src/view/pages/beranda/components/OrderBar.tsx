@@ -1,12 +1,12 @@
 import { Button, Menu, Text, TextInput } from "@mantine/core";
 import { useState } from "react";
-import useBerandaPageStore from "../../../../stores/pages/useBerandaPageStore";
+import useApp from "../../../../stores/useApp";
 
 const OrderBar = () => {
-  const state = useBerandaPageStore((state) => ({ loaded: state.loaded, loading: state.loading }));
+  const { loaded, loading } = useApp((state) => state.pageBerandaStore);
   const [open, setOpen] = useState(false);
 
-  const disabled = !state.loaded && state.loading;
+  const disabled = loaded && loading;
 
   const rekomendasi = (
     <Menu position="bottom-start" width="target" shadow="md" disabled={disabled} clickOutsideEvents={["alerts"]} withinPortal>

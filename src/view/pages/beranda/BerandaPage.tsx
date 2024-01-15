@@ -1,26 +1,26 @@
 import { useEffect } from "react";
-import useBerandaPageStore from "../../../stores/pages/useBerandaPageStore";
 import { Loader } from "@mantine/core";
 import ProductCard from "./components/ProductCard";
 import OrderBar from "./components/OrderBar";
+import useApp from "../../../stores/useApp";
 
 const BerandaPage = () => {
-  const state = useBerandaPageStore();
+  const store = useApp((state) => state.pageBerandaStore);
 
   useEffect(() => {
-    const { load } = useBerandaPageStore.getState().pageActions!;
+    const { load } = store.pageActions!;
 
     load!();
   }, []);
 
-  if (state.loading) return <Loader />;
+  if (store.loading) return <Loader />;
 
-  if (state.loaded) {
+  if (store.loaded) {
     return (
       <div className="-mx-2">
         <OrderBar />
         <div className="grid grid-flow-row grid-cols-5">
-          {state.products.map((p) => (
+          {store.products.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
         </div>

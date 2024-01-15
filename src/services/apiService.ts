@@ -1,17 +1,17 @@
-import BaseResponseModel from "../models/bases/BaseResponseModel";
-import useAuthStore from "../stores/app/useAuthStore";
+import BaseResponseModel from "../abstractions/BaseResponseModel";
+import usePersist from "../stores/usePersist";
 import logService from "./logService";
 
 const headerBuilder = (): HeadersInit => {
-  const authStore = useAuthStore.getState();
+  const persist = usePersist.getState();
 
   const header: Record<string, string> = {
     Accept: "application/json",
     "Content-Type": "application/json",
   };
 
-  if (authStore.actions.isAuthenticated() && authStore.token != undefined) {
-    header["Authorization"] = authStore.token;
+  if (persist.auth_isAuthenticated() && persist.authStore.token != undefined) {
+    header["Authorization"] = persist.authStore.token;
   }
 
   return header;

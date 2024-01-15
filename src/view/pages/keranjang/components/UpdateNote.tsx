@@ -1,16 +1,16 @@
 import { Button, Modal, Space, Textarea } from "@mantine/core";
-import useCartStore from "../../../../stores/app/useCartStore.ts";
 import { SlNote } from "react-icons/sl";
 import ProductModel from "../../../../models/ProductModel.ts";
 import { useDisclosure } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
+import usePersist from "../../../../stores/usePersist.ts";
 
 const UpdateNote = ({ product }: { product: ProductModel }) => {
-  const state = useCartStore();
+  const persist = usePersist();
 
   const [opened, { open, close }] = useDisclosure(false);
 
-  const productNote = state.actions.getCartById(product.id)?.note;
+  const productNote = persist.cart_getCartById(product.id)?.note;
 
   const form = useForm({
     initialValues: {
@@ -19,7 +19,7 @@ const UpdateNote = ({ product }: { product: ProductModel }) => {
   });
 
   const SaveNote = () => {
-    state.actions.updateNote(product.id, form.values.note);
+    persist.cart_updateNote(product.id, form.values.note);
 
     close();
   };

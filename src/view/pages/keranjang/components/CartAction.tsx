@@ -1,12 +1,12 @@
 import { Card, Divider, Space, Button } from "@mantine/core";
-import useKeranjangPageStore from "../../../../stores/pages/useKeranjangPageStore";
 import CheckoutRow from "./CheckoutRow";
 import { TiShoppingCart } from "react-icons/ti";
+import useApp from "../../../../stores/useApp";
 
 const CartAction = () => {
-  const state = useKeranjangPageStore();
+  const store = useApp((state) => state.pageKeranjangStore);
 
-  const totalPrice = state.cartProducts
+  const totalPrice = store.cartProducts
     .map((data) => {
       const priceAfterDiscount = Math.round(data.product.price - data.product.price * (data.product.discountPercentage / 100));
 
@@ -14,7 +14,7 @@ const CartAction = () => {
     })
     .reduce((p, c) => p + c, 0);
 
-  const enableBuy = state.cartProducts.length > 0;
+  const enableBuy = store.cartProducts.length > 0;
 
   return (
     <Card p="sm" className="sticky top-28 flex flex-col w-[40%] h-min" withBorder>
@@ -27,8 +27,8 @@ const CartAction = () => {
       <Card.Section>
         <div className="flex flex-col pl-6 pr-4 max-h-[400px] overflow-y-auto">
           <Space h={10} />
-          {state.cartProducts.map((c, i) => (
-            <CheckoutRow data={c} showDivider={i != state.cartProducts.length - 1} />
+          {store.cartProducts.map((c, i) => (
+            <CheckoutRow data={c} showDivider={i != store.cartProducts.length - 1} />
           ))}
           <Space h={10} />
         </div>
@@ -43,7 +43,7 @@ const CartAction = () => {
           Total price <span className="font-bold text-gray-800">${totalPrice}</span>
         </div>
         <div className="text-md text-gray-600 ">
-          Total barang <span className=" font-semibold text-gray-500">{state.cartProducts.length}</span>
+          Total barang <span className=" font-semibold text-gray-500">{store.cartProducts.length}</span>
         </div>
         <Space h={10} />
         <Button disabled={!enableBuy} size="md" color="cpink" fullWidth>

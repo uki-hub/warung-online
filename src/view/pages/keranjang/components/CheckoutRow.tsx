@@ -1,7 +1,7 @@
 import { Text } from "@mantine/core";
 import CartProductModel from "../../../../models/CartProductModel";
 
-const CheckoutRow = ({ data, showDivider }: { data: CartProductModel; showDivider: boolan }) => {
+const CheckoutRow = ({ data, showDivider }: { data: CartProductModel; showDivider: boolean }) => {
   const priceAfterDiscount = Math.round(data.product.price - data.product.price * (data.product.discountPercentage / 100));
   const totalPrice = priceAfterDiscount * data.cart.count;
 
