@@ -6,7 +6,6 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { AiFillDelete } from "react-icons/ai";
 import UpdateNote from "./UpdateNote.tsx";
 import useApp from "../../../../stores/useApp.ts";
-import usePersist from "../../../../stores/usePersist.ts";
 
 const CartRow = ({ data }: { data: CartProductModel }) => {
   const modalStore = useApp((state) => state.ConfirmationModalStore);
@@ -44,7 +43,7 @@ const CartRow = ({ data }: { data: CartProductModel }) => {
                     </span>
                   ),
                   onAnswer: async (value) => {
-                    if (value) usePersist.getState().cart_clear([data.cart.id]);
+                    if (value) useApp.getState().pageKeranjangStore.actions.delete(data.cart.id);
                   },
                 });
               }}

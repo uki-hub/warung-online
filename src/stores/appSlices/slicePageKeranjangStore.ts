@@ -5,6 +5,9 @@ import usePersist from "../usePersist";
 
 export interface PageKeranjangStore extends BasePageStore {
   cartProducts: CartProductModel[];
+  actions: {
+    delete: (id: number) => void;
+  };
 }
 
 export interface PageKeranjangSlice {
@@ -16,7 +19,16 @@ const initialState = { loading: true, loaded: false, error: false, errors: [], c
 export const createPageKeranjangSlice: ImmerStateCreator<PageKeranjangSlice> = (set, get) => ({
   pageKeranjangStore: {
     ...initialState,
-    actions: {},
+    actions: {
+      delete: (id) => {
+        set((state) => {
+          usePersist.getState().cart_clear([id]);
+
+          const updatedCartProducts = state.pageKeranjangStore.cartProducts.filter((s) => s.cart.id != id);
+          state.pageKeranjangStore.cartProducts = updatedCartProducts;
+        });
+      },
+    },
     pageActions: {
       load: async () => {
         const { carts } = usePersist.getState().CartStore;
