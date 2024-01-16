@@ -1,8 +1,8 @@
-import { Button, TextInput } from "@mantine/core";
+import { Button, NumberInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { MdAdd, MdRemove } from "react-icons/md";
 import useApp from "../../../../stores/useApp";
 import usePersist from "../../../../stores/usePersist";
+import { IoAdd, IoRemove } from "react-icons/io5";
 const ProductAction = () => {
   const { product } = useApp((state) => state.pageBarangStore);
 
@@ -19,32 +19,24 @@ const ProductAction = () => {
       id: product!.id,
       count: form.values.jumlah,
       note: "",
+      checked: true,
     });
   };
 
   return (
     <form className="flex flex-col gap-4 justify-end">
       <div className="flex ">
-        <TextInput
+        <NumberInput
           label="Jumlah"
-          type="number"
-          leftSection={
-            <div
-              className="mr-2 flex items-center justify-center w-full h-full border-r text-2xl cursor-pointer hover:bg-pink-50"
-              onClick={() => setJumlah(-1)}
-            >
-              <MdRemove />
-            </div>
-          }
-          rightSection={
-            <div
-              className="ml-2 flex items-center justify-center w-full h-full border-l text-2xl cursor-pointer hover:bg-pink-50"
-              onClick={() => setJumlah(1)}
-            >
-              <MdAdd />
-            </div>
-          }
-          className="w-24"
+          w={85}
+          maxLength={3}
+          leftSectionWidth={25}
+          rightSectionWidth={25}
+          leftSection={<IoRemove className="cursor-pointer hover:text-pink-500" onClick={() => setJumlah(-1)} />}
+          rightSection={<IoAdd className="cursor-pointer hover:text-pink-500" onClick={() => setJumlah(1)} />}
+          classNames={{
+            input: "text-center text-sm font-semibold text-gray-600",
+          }}
           {...form.getInputProps("jumlah")}
         />
       </div>

@@ -1,7 +1,6 @@
 import CartModel from "../../models/CartModel";
 import { ImmerStateCreator } from "../../abstractions/BaseStore";
 
-
 export interface CartStore {
   carts: CartModel[];
 }
@@ -15,8 +14,12 @@ export interface CartSlice {
   cart_add: (cart: CartModel) => void;
   cart_updateCount: (id: number, count: number) => void;
   cart_updateNote: (id: number, note: string) => void;
+  cart_check: (id: number) => void;
+  cart_checkAll: () => void;
   cart_clear: (ids: number[]) => void;
   cart_clearAll: () => void;
+
+  cart_setCount: (id: number, fn: (count: number) => number) => void;
 }
 
 export const createCartSlice: ImmerStateCreator<CartSlice> = (set, get) => ({
@@ -42,7 +45,7 @@ export const createCartSlice: ImmerStateCreator<CartSlice> = (set, get) => ({
       });
     } else {
       set((state) => {
-        state.CartStore.carts[cartIndex].count = cart.count;
+        state.CartStore.carts[cartIndex].count += cart.count;
       });
     }
   },
@@ -61,6 +64,22 @@ export const createCartSlice: ImmerStateCreator<CartSlice> = (set, get) => ({
       state.CartStore.carts[cartIndex].note = note;
     });
   },
+  cart_check: (id) => {
+    const cartIndex = get().cart_getCartIndexById(id);
+
+    set((state) => {
+      const value = state.CartStore.carts[cartIndex].checked;
+
+      state.CartStore.carts[cartIndex].checked = !value;
+    });
+  },
+  cart_checkAll: () => {
+    set((state) => {
+      for (let i = 0; i < state.CartStore.carts.length; i++) {
+        state.CartStore.carts[i].checked = true;
+      }
+    });
+  },
   cart_clear: (ids) => {
     const { carts } = get().CartStore;
 
@@ -73,6 +92,16 @@ export const createCartSlice: ImmerStateCreator<CartSlice> = (set, get) => ({
   cart_clearAll: () => {
     set((state) => {
       state.CartStore.carts = [];
+    });
+  },
+
+  cart_setCount: (id, fn) => {
+    const productIndex = get().cart_getCartIndexById(id);
+
+    const updatedCount = fn(get().CartStore.carts[productIndex].count);
+
+    set((state) => {
+      state.CartStore.carts[productIndex].count = updatedCount;
     });
   },
 });

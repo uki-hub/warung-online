@@ -5,6 +5,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
 import usePersist from "../../../../stores/usePersist.ts";
 
+//FIX THIS
 const UpdateNote = ({ product }: { product: ProductModel }) => {
   const persist = usePersist();
 
@@ -36,7 +37,7 @@ const UpdateNote = ({ product }: { product: ProductModel }) => {
             <Modal.CloseButton />
           </Modal.Header>
           <Modal.Body>
-            <Textarea autosize {...form.getInputProps("note")} />
+            <Textarea placeholder="Tambahkan catatan" autosize {...form.getInputProps("note")} />
             <Space h={20} />
             <Button color="cpink" fullWidth onClick={SaveNote}>
               Simpan
@@ -44,12 +45,12 @@ const UpdateNote = ({ product }: { product: ProductModel }) => {
           </Modal.Body>
         </Modal.Content>
       </Modal.Root>
-      <div onClick={open} className="flex items-start gap-2 pl-8 cursor-pointer  text-gray-400 hover:text-gray-800">
+      <div onClick={open} className="w-min flex items-start gap-2 pl-8 cursor-pointer  text-gray-400 hover:text-gray-800">
         <SlNote className={`shrink-0 ${productNote == "" ? "" : "text-gray-600"}`} />
         {productNote == "" ? (
-          <span className="text-sm italic">Tambahkan catatan</span>
+          <span className="text-sm italic shrink-0">Tambahkan catatan</span>
         ) : (
-          <span className="line-clamp-2 break-all text-sm text-gray-600">{productNote}</span>
+          <span className="line-clamp-2 break-all text-sm shrink-0 text-gray-600">{productNote}</span>
         )}
       </div>
     </>
