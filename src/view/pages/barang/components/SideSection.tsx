@@ -4,18 +4,27 @@ import ProductModel from "../../../../models/ProductModel";
 import ProductAction from "./ProductAction";
 import { BsHeart } from "react-icons/bs";
 import { BsHeartFill } from "react-icons/bs";
-import { useState } from "react";
+import usePersist from "../../../../stores/usePersist";
+import { useShallow } from "zustand/react/shallow";
 
 const SideSection = ({ product }: { product: ProductModel }) => {
-  const [wish, setWish] = useState(false);
+  const wishlistStore = usePersist(useShallow((state) => state.WishlistStore));
+
+  const isWishlisted = wishlistStore.wishlist.findIndex((w) => w.productId == product.id) != -1;
+
+  const onWish = () => {
+    usePersist.getState().wishlist_wish({
+      productId: product.id,
+    });
+  };
 
   return (
     <div className="flex flex-col w-[40%]">
       <div className="flex justify-between">
         <Title>{product.title}</Title>
-        <div className="relative my-2 cursor-pointer flex-shrink-0 text-xl " onClick={() => setWish(!wish)}>
+        <div className="relative my-2 cursor-pointer flex-shrink-0 text-xl " onClick={onWish}>
           <BsHeart className="absolute text-gray-400 " />
-          <BsHeartFill className={`transition-all ease-in absolute text-red-500 ${wish ? "scale-100" : "scale-0"}`} />
+          <BsHeartFill className={`transition-all ease-in absolute text-red-500 ${isWishlisted ? "scale-100" : "scale-0"}`} />
         </div>
       </div>
       <Space h={5} />

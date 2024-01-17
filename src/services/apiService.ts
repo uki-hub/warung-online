@@ -1,8 +1,9 @@
 import BaseResponseModel from "../abstractions/BaseResponseModel";
 import usePersist from "../stores/usePersist";
 import logService from "./logService";
+import axios from "axios";
 
-const headerBuilder = (): HeadersInit => {
+const headerBuilder = (): Record<string, string> => {
   const persist = usePersist.getState();
 
   const header: Record<string, string> = {
@@ -64,8 +65,9 @@ const POST = async <T>(url: string, body: Record<string, any>): Promise<BaseResp
 
 const GET = async <T>(url: string): Promise<BaseResponseModel<T>> =>
   responseWrapper(() =>
-    fetch(url, {
+    axios({
       method: "GET",
+      url: url,
       headers: headerBuilder(),
     })
   );

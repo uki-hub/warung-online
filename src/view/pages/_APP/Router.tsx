@@ -5,6 +5,7 @@ import BarangPage from "../barang/BarangPage";
 import Layout from "./Layout";
 import KeranjangPage from "../keranjang/KeranjangPage";
 import CheckoutPage from "../checkout/CheckoutPage";
+import WishlistPage from "../wishlist/WishlistPage";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/keranjang",
         element: <KeranjangPage />,
+      },
+      {
+        path: "/wishlist",
+        element: <WishlistPage />,
       },
     ],
   },

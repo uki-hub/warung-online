@@ -1,32 +1,42 @@
 import { useEffect } from "react";
 import { Loader } from "@mantine/core";
-import ProductCard from "./components/ProductCard";
+import ProductCard from "../../components/ProductCard/ProductCard";
 import OrderBar from "./components/OrderBar";
 import useApp from "../../../stores/useApp";
+import { useQuery } from "react-query";
+import productApi from "../../../services/api/productApi";
 
 const BerandaPage = () => {
-  const store = useApp((state) => state.pageBerandaStore);
+  const { isLoading, data } = useQuery("products", productApi.getProducts, {
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    staleTime: 5000,
+    
+  });
 
-  useEffect(() => {
-    const { load } = store.pageActions!;
+  // const store = useApp((state) => state.pageBerandaStore);
 
-    load!();
-  }, []);
+  // useEffect(() => {
+  //   const { load } = store.pageActions!;
 
-  if (store.loading) return <Loader />;
+  //   load!();
+  // }, []);
 
-  if (store.loaded) {
-    return (
-      <div className="-mx-2">
-        <OrderBar />
-        <div className="grid grid-flow-row grid-cols-5">
-          {store.products.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
-        </div>
+  console.log("rendering");
+
+  if (isLoading) return <Loader />;
+
+  return (
+    <div className="-mx-2">
+      <OrderBar />
+      <div className="grid grid-flow-row grid-cols-5">
+        {data?.data!.products.map((p) => (
+          <ProductCard key={p.id} product={p} />
+        ))}
       </div>
-    );
-  }
+    </div>
+  );
 };
 
 export default BerandaPage;

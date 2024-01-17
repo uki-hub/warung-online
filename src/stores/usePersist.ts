@@ -4,8 +4,9 @@ import { immer } from "zustand/middleware/immer";
 import { AuthSlice, createAuthSlice } from "./persistSlices/sliceAuth";
 import { CartSlice, createCartSlice } from "./persistSlices/sliceCart";
 import { Draft } from "immer";
+import { WishlistSlice, createWishlistSlice } from "./persistSlices/sliceWishlist";
 
-interface PersistStore extends AuthSlice, CartSlice {
+interface PersistStore extends AuthSlice, CartSlice, WishlistSlice {
   set: (
     nextStateOrUpdater: PersistStore | Partial<PersistStore> | ((state: Draft<PersistStore>) => void),
     shouldReplace?: boolean | undefined
@@ -20,6 +21,7 @@ const usePersist = create<PersistStore>()(
       return {
         ...createAuthSlice(...a),
         ...createCartSlice(...a),
+        ...createWishlistSlice(...a),
         set: set,
       };
     }),

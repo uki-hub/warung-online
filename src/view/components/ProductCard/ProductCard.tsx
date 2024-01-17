@@ -1,6 +1,8 @@
 import { Badge, Card, Image, Text, Title } from "@mantine/core";
-import ProductModel from "../../../../models/ProductModel";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import productApi from "../../../services/api/productApi";
+import ProductModel from "../../../models/ProductModel";
 
 const ProductCard = ({ product }: { product: ProductModel }) => {
   return (
@@ -34,5 +36,23 @@ const ProductCard = ({ product }: { product: ProductModel }) => {
     </div>
   );
 };
+
+const ById = ({ productId }: { productId: number }) => {
+  const [product, setProduct] = useState<ProductModel | undefined>();
+
+  useEffect(() => {
+    (async () => {
+      const fetchedProduct = await productApi.getProduct(productId);
+
+      setProduct(fetchedProduct.data);
+    })();
+  }, [productId]);
+
+  if (product == undefined) return <p>Loading</p>;
+
+  return <ProductCard product={product} />;
+};
+
+ProductCard.ById = ById;
 
 export default ProductCard;
