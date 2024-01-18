@@ -5,13 +5,10 @@ export interface BaseStore {
 }
 
 export interface BasePageStore extends BaseStore {
-  loaded: boolean;
-  loading: boolean;
-  error: boolean;
   errors: string[];
   pageActions?:
     | {
-        load?: (arg?: any) => Promise<void>;
+        load?: (arg?: any) => void;
         refresh?: () => Promise<void>;
         clear?: () => void;
       }

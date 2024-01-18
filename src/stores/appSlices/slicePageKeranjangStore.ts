@@ -1,6 +1,5 @@
 import { BasePageStore, ImmerStateCreator } from "../../abstractions/BaseStore";
 import CartProductModel from "../../models/CartProductModel";
-import productApi from "../../services/api/productApi";
 import usePersist from "../usePersist";
 
 export interface PageKeranjangStore extends BasePageStore {
@@ -119,15 +118,7 @@ export const createPageKeranjangSlice: ImmerStateCreator<PageKeranjangSlice> = (
         get().pageKeranjangStore.actions.mapPersistCartData();
       },
       buy: async () => {
-        set((state) => {
-          state.pageKeranjangStore.loading = true;
-        });
-
         await new Promise((res) => setTimeout(res, 2000));
-        
-        set((state) => {
-          state.pageKeranjangStore.loading = false;
-        });
       },
     },
     pageActions: {
@@ -149,8 +140,6 @@ export const createPageKeranjangSlice: ImmerStateCreator<PageKeranjangSlice> = (
 
         set((state) => {
           state.pageKeranjangStore.cartProducts = cartProducts;
-          state.pageKeranjangStore.loading = false;
-          state.pageKeranjangStore.loaded = true;
         });
       },
       refresh: async () => {

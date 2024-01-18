@@ -1,6 +1,6 @@
 import { BasePageStore, ImmerStateCreator } from "../../abstractions/BaseStore";
 import NewAccountModel from "../../models/NewAccountModel";
-import authApi from "../../services/api/authApi";
+import authApi from "../../apis/authApi";
 import usePersist from "../usePersist";
 
 export interface PageLoginStore extends BasePageStore {
@@ -25,9 +25,6 @@ type formToggles = "login" | "forgot" | "new";
 
 export const createPageLoginSlice: ImmerStateCreator<PageLoginSlice> = (set, get) => ({
   pageLoginStore: {
-    loading: false,
-    loaded: true,
-    error: false,
     errors: [],
     currentForm: "login",
     actions: {

@@ -1,7 +1,6 @@
-import BaseResponseModel from "../abstractions/BaseResponseModel";
 import usePersist from "../stores/usePersist";
 import logService from "./logService";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 const headerBuilder = (): Record<string, string> => {
   const persist = usePersist.getState();
@@ -18,9 +17,8 @@ const headerBuilder = (): Record<string, string> => {
   return header;
 };
 
-const responseWrapper = async <T>(requestFn: () => Promise<Response>): Promise<BaseResponseModel<T>> => {
-  let response: Response | undefined;
-  let success: boolean = false;
+const responseWrapper = async <T>(requestFn: () => Promise<AxiosResponse<T>>): Promise<T> => {
+  let response: AxiosResponse | undefined;
   let data: T | undefined;
 
   const errorClient: string[] = [];
@@ -29,11 +27,11 @@ const responseWrapper = async <T>(requestFn: () => Promise<Response>): Promise<B
   try {
     response = await requestFn();
 
-    success = response.ok;
+    console.log(response);
 
-    if (success) data = (await response.json()) as T;
+    data = response.data;
   } catch (e) {
-    errorClient.push(await response!.text());
+    errorClient.push(await response!.data);
 
     if (typeof e === "string") {
       errorDev.push(e.toUpperCase());
@@ -44,37 +42,26 @@ const responseWrapper = async <T>(requestFn: () => Promise<Response>): Promise<B
     logService.logAll(errorDev);
   }
 
-  return <BaseResponseModel<T>>{
-    success: success,
-    data: data,
-    errors: {
-      client: errorClient,
-      dev: errorDev,
-    },
-  };
+  return data!;
 };
 
-const POST = async <T>(url: string, body: Record<string, any>): Promise<BaseResponseModel<T>> =>
+const POST = async <T>(url: string, body: Record<string, any>): Promise<T> =>
   responseWrapper(() =>
-    fetch(url, {
-      method: "POST",
-      headers: headerBuilder(),
-      body: JSON.stringify(body),
-    })
-  );
-
-const GET = async <T>(url: string): Promise<BaseResponseModel<T>> =>
-  responseWrapper(() =>
-    axios({
-      method: "GET",
-      url: url,
+    axios.post(url, body, {
       headers: headerBuilder(),
     })
   );
 
-const ApiService = {
+const GET = async <T>(url: string): Promise<T> =>
+  responseWrapper(() =>
+    axios.get(url, {
+      headers: headerBuilder(),
+    })
+  );
+
+const apiService = {
   POST: POST,
   GET: GET,
 };
 
-export default ApiService;
+export default apiService;

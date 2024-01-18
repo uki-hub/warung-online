@@ -1,4 +1,4 @@
-export default interface AuthResponseModel {
+export default interface ResponseAuthModel {
   id: number;
   username: string;
   email: string;

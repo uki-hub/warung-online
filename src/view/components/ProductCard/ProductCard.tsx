@@ -1,8 +1,8 @@
 import { Badge, Card, Image, Text, Title } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import productApi from "../../../services/api/productApi";
 import ProductModel from "../../../models/ProductModel";
+import productApi from "../../../apis/productApi";
 
 const ProductCard = ({ product }: { product: ProductModel }) => {
   return (

@@ -1,6 +1,6 @@
 import ProductModel from "../../models/ProductModel";
-import productApi from "../../services/api/productApi";
 import { BasePageStore, ImmerStateCreator } from "../../abstractions/BaseStore";
+import productApi from "../../apis/productApi";
 
 export interface PageBarangStore extends BasePageStore {
   product: ProductModel | undefined;
@@ -17,9 +17,6 @@ export interface PageBarangSlice {
 const initialState = {
   product: undefined,
   indexImage: 0,
-  loading: true,
-  loaded: false,
-  error: false,
   errors: [],
 };
 
@@ -40,8 +37,6 @@ export const createPageBarangSlice: ImmerStateCreator<PageBarangSlice> = (set, g
 
         set((state) => {
           state.pageBarangStore.product = response.data;
-          state.pageBarangStore.loaded = true;
-          state.pageBarangStore.loading = false;
         });
       },
       refresh: async () => await get().pageBarangStore.pageActions!.load!(),
