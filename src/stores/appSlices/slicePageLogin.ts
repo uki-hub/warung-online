@@ -33,19 +33,15 @@ export const createPageLoginSlice: ImmerStateCreator<PageLoginSlice> = (set, get
           state.pageLoginStore.currentForm = toggle;
         }),
       login: async (username: string, password: string, rememberMe: boolean) => {
-        set((state) => {
-          state.pageLoginStore.loading = true;
-        });
-
         const response = await authApi.login(username, password);
 
-        if (!response.success) {
-          set((state) => (state.pageLoginStore.errors = response!.errors.client));
+        if (!response) {
+          // set((state) => (state.pageLoginStore.errors = response!.client));
 
           return false;
         }
 
-        usePersist.getState().auth_setToken(response.data!.token);
+        usePersist.getState().auth_setToken(response!.token);
 
         set((state) => {
           if (rememberMe) {
@@ -54,8 +50,6 @@ export const createPageLoginSlice: ImmerStateCreator<PageLoginSlice> = (set, get
               password,
             };
           }
-
-          state.pageLoginStore.loading = false;
         });
 
         return true;

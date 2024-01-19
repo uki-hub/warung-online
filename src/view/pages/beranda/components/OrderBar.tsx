@@ -6,7 +6,7 @@ import { useQuery } from "react-query";
 const OrderBar = () => {
   const store = useApp((state) => state.pageBerandaStore);
 
-  const { isLoading } = useQuery(store.queryKeys.getProducts);
+  const { isLoading } = useQuery('store.queryKeys.getProducts');
 
   const [open, setOpen] = useState(false);
 

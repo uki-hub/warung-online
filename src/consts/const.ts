@@ -1,12 +1,12 @@
-const STORAGE = {
-  loginPage: 'loginPage-storage',
-  auth: "auth-storage",
-  cart: "cart-storage",
-  wishlist: "wishlist-storage",
+const QUERY_KEYS = {
+  pageLogin: "pageLogin",
+  pageBeranda: "pageBeranda",
+  pageBarang: "pageBarang",
+  pageKeranjang: "pageKeranjang",
 };
 
 const CONSTS = {
-  STORAGE,
+  QUERY_KEYS,
 };
 
 export default CONSTS;

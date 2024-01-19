@@ -4,11 +4,13 @@ import OrderBar from "./components/OrderBar";
 import useApp from "../../../stores/useApp";
 import { useQuery } from "react-query";
 import productApi from "../../../apis/productApi";
+import useQuerykey from "../../../hooks/useQueryKey";
 
 const BerandaPage = () => {
-  // const store = useApp((state) => state.pageBerandaStore);
+  const store = useApp((state) => state.pageBerandaStore);
+  const queryKey = useQuerykey();
 
-  const { isLoading, data } = useQuery("BerandaPage.getProducts", productApi.getProducts);
+  const { isLoading, data } = useQuery(queryKey.builder(queryKey.keys.pageBeranda, "getProducts"), productApi.getProducts);
 
   return (
     <div className="-mx-2">

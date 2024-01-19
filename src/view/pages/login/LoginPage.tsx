@@ -16,6 +16,7 @@ function LoginPage() {
     if (usePersist.getState().auth_isAuthenticated()) navigate("/");
   }, [navigate]);
 
+
   return (
     <div className="relative h-screen flex items-center justify-end">
       <img className="absolute w-full h-full" src={image} />

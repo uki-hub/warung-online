@@ -2,11 +2,23 @@ import { Checkbox, TextInput, Title, Button, PasswordInput, Space, Divider, Grou
 import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
 import useApp from "../../../../stores/useApp";
+import useQuerykey from "../../../../hooks/useQueryKey";
+import { useMutation, useQuery } from "react-query";
+import authApi from "../../../../apis/authApi";
 
 const LoginForm = () => {
   const navigate = useNavigate();
 
-  const loading = useApp((state) => state.pageLoginStore.loading);
+  const { isLoading, mutate } = useMutation({
+    mutationFn: () => useApp.getState().pageLoginStore.actions.login(form.values.username, form.values.password, form.values.rememberMe),
+    onSuccess: (success) => {
+      if (success) navigate("/");
+      else alert("wrong");
+    },
+    onError: (e) => {
+      alert(e);
+    },
+  });
 
   const form = useForm({
     initialValues: {
@@ -20,15 +32,7 @@ const LoginForm = () => {
   });
 
   const login = async () => {
-    const success = await useApp.getState().pageLoginStore.actions.login(form.values.username, form.values.password, form.values.rememberMe);
-
-    if (!success) {
-      //failed login
-      alert("failed");
-      return;
-    }
-
-    navigate("/");
+    mutate();
   };
 
   const onLupaPassword = () => useApp.getState().pageLoginStore.actions.formToggle("forgot");
@@ -44,7 +48,7 @@ const LoginForm = () => {
       <PasswordInput label="Password" {...form.getInputProps("password")}></PasswordInput>
       <Space h="xl" />
       <Button onClick={login} variant="filled" color="cpink" size="md" fullWidth>
-        {loading ? <Loader size="sm" color="white" /> : "MASUK"}
+        {isLoading ? <Loader size="sm" color="white" /> : "MASUK"}
       </Button>
       <Space h="md" />
       <Group justify="space-between">
